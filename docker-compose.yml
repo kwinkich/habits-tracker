@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  habits-client:
+    build:
+      context: ./habits-client
+      dockerfile: Dockerfile
+    container_name: habits-client
+    ports:
+      - "5050:5050"
+    environment:
+      - VITE_API_URL=http://habits-server:5051
+    depends_on:
+      - habits-server
+    networks:
+      - habits-network
+    volumes:
+      - ./habits-client:/app
+      - /app/node_modules
+
+  habits-server:
+    build:
+      context: ./habits-server
+      dockerfile: Dockerfile
+    container_name: habits-server
+    ports:
+      - "5051:5051"
+    environment:
+      - PORT=5051
+    env_file:
+      - ./habits-server/.env
+    networks:
+      - habits-network
+    volumes:
+      - ./habits-server:/app
+      - /app/node_modules
+      - ./habits-server/uploads:/app/uploads
+
+networks:
+  habits-network:
+    driver: bridge
