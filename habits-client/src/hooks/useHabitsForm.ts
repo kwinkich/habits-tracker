@@ -14,6 +14,7 @@ export interface UseHabitsFormReturn {
   form: ReturnType<typeof useForm<HabitsFormData>>
   fileInputRef: RefObject<HTMLInputElement | null>
   files: Array<File>
+  config: any
   configLoading: boolean
   configError: string | null
   habitKeys: Array<string>
@@ -38,6 +39,7 @@ export function useHabitsForm(): UseHabitsFormReturn {
   const sendReportMutation = useSendReport()
 
   const {
+    config,
     loading: configLoading,
     error: configError,
     habitKeys,
@@ -49,7 +51,7 @@ export function useHabitsForm(): UseHabitsFormReturn {
 
   const defaultValues: Record<string, unknown> = {
     photos: [],
-    dayCount: 0,
+    dayCount: undefined,
   }
 
   if (habitKeys.length > 0) {
@@ -109,7 +111,8 @@ export function useHabitsForm(): UseHabitsFormReturn {
     try {
       const data: Record<string, unknown> = {
         photos: values.photos || [],
-        dayCount: values.dayCount ? Number(values.dayCount) : 1,
+        // Only send dayCount if user explicitly entered a value
+        dayCount: values.dayCount && values.dayCount > 0 ? Number(values.dayCount) : undefined,
       }
 
       habitKeys.forEach((key) => {
@@ -124,6 +127,9 @@ export function useHabitsForm(): UseHabitsFormReturn {
         fileInputRef.current.value = ''
       }
 
+      // Refresh config to get updated dayCount
+      refreshConfig()
+
       console.log('Report sent successfully!')
     } catch (error) {
       console.error('Error sending report:', error)
@@ -136,6 +142,7 @@ export function useHabitsForm(): UseHabitsFormReturn {
     form,
     fileInputRef,
     files,
+    config,
     configLoading,
     configError,
     habitKeys,

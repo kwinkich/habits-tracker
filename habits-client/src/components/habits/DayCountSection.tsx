@@ -11,9 +11,12 @@ import type { HabitsFormData } from '@/schemas/habits.schema'
 
 interface DayCountSectionProps {
   form: UseFormReturn<HabitsFormData>
+  currentDayCount?: number
 }
 
-export function DayCountSection({ form }: DayCountSectionProps) {
+export function DayCountSection({ form, currentDayCount }: DayCountSectionProps) {
+  const nextDayCount = (currentDayCount || 0) + 1
+
   return (
     <div className="bg-zinc-800/50 backdrop-blur-sm rounded-2xl p-6 border border-zinc-700">
       <h2 className="text-xl font-semibold mb-6">Additional Info</h2>
@@ -29,15 +32,17 @@ export function DayCountSection({ form }: DayCountSectionProps) {
               </div>
               <div className="flex-1">
                 <FormLabel className="text-base font-medium">
-                  Day Count
+                  Day Count (Optional)
                 </FormLabel>
-                <p className="text-sm text-zinc-400">Track your streak</p>
+                <p className="text-sm text-zinc-400">
+                  Auto: Day {nextDayCount} • Override if needed
+                </p>
               </div>
             </div>
 
             <FormControl className="mt-4">
               <Input
-                placeholder="Enter day number (e.g., 42)"
+                placeholder={`Leave empty for auto (Day ${nextDayCount})`}
                 {...field}
                 value={(field.value as string | number | undefined) ?? ''}
                 onChange={(e) => {

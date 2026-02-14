@@ -19,6 +19,7 @@ function App() {
     form,
     fileInputRef,
     files,
+    config,
     configLoading,
     configError,
     habitsList,
@@ -67,7 +68,7 @@ function App() {
 
           <HabitsSection form={form} habitsList={habitsList} />
 
-          <DayCountSection form={form} />
+          <DayCountSection form={form} currentDayCount={config?.dayCount} />
 
           <SubmitSection
             isPending={sendReportMutation.isPending}

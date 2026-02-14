@@ -3,7 +3,12 @@ import * as z from 'zod'
 export const createDynamicHabitsSchema = (habitKeys: Array<string>) => {
   const schemaShape: Record<string, z.ZodTypeAny> = {
     photos: z.array(z.instanceof(File)).default([]),
-    dayCount: z.number().min(1, 'Day count must be at least 1'),
+    dayCount: z
+      .number()
+      .min(1, 'Day count must be at least 1')
+      .optional()
+      .or(z.literal(0))
+      .or(z.literal(undefined)),
   }
 
   habitKeys.forEach((key) => {

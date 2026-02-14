@@ -1,26 +1,5 @@
 {
   "habits": {
-    "isReadBook": {
-      "type": "boolean",
-      "label": "Read a book",
-      "emoji": "📖",
-      "order": 1,
-      "active": true
-    },
-    "isLearnEnglish": {
-      "type": "boolean",
-      "label": "Learn English",
-      "emoji": "🏳",
-      "order": 2,
-      "active": true
-    },
-    "isSport": {
-      "type": "boolean",
-      "label": "Sport",
-      "emoji": "🏃",
-      "order": 3,
-      "active": true
-    },
     "isCoding": {
       "type": "boolean",
       "label": "Coding",
@@ -28,28 +7,43 @@
       "order": 4,
       "active": true
     },
-    "isWakeUpEarly": {
+    "isReadingBook": {
       "type": "boolean",
-      "label": "Wake up at 6AM",
-      "emoji": "🌅",
+      "label": "Read a non tech book before sleep",
+      "emoji": "📖",
+      "order": 1,
+      "active": true
+    },
+    "isReadingTechBook": {
+      "type": "boolean",
+      "label": "Read a tech book while breakfast (kaban)",
+      "emoji": "📚",
+      "order": 2,
+      "active": true
+    },
+    "isTraficTicketsSolved": {
+      "type": "boolean",
+      "label": "Decided at least 3 traffic tickets",
+      "emoji": "🚘",
       "order": 5,
       "active": true
     },
-    "isSleepWell": {
+    "isAlgoCoursePassed": {
       "type": "boolean",
-      "label": "Sleep at 10PM",
-      "emoji": "😴",
-      "order": 6,
+      "label": "Have a completed at least 1 video course on algorithms",
+      "emoji": "🧠",
+      "order": 3,
       "active": true
     },
-    "noSugar": {
+    "isWakeUpEarly": {
       "type": "boolean",
-      "label": "No sugar",
-      "emoji": "🍭",
-      "order": 7,
+      "label": "got up before 7 am",
+      "emoji": "🌄",
+      "order": 6,
       "active": true
     }
   },
+  "dayCount": 1,
   "version": "1.0.0",
-  "lastUpdated": "2026-01-21T09:29:48.113Z"
+  "lastUpdated": "2026-02-14T20:01:04.260Z"
 }
