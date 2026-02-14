@@ -17,6 +17,7 @@ export interface HabitsConfig {
 export interface HabitsConfigResponse {
   success: boolean
   habits: Record<string, HabitConfig>
+  dayCount: number
   version: string
   lastUpdated: string
 }
@@ -39,7 +40,7 @@ export const habitsAPI = {
   sendReport: async (data: {
     [key: string]: any
     photos: Array<File>
-    dayCount: number
+    dayCount?: number
   }): Promise<ReportResponse> => {
     const formData = new FormData()
 
@@ -53,6 +54,10 @@ export const habitsAPI = {
     // Добавляем все остальные поля (кроме photos)
     Object.keys(data).forEach((key) => {
       if (key !== 'photos') {
+        // Only append dayCount if it's defined and greater than 0
+        if (key === 'dayCount' && (data[key] === undefined || data[key] === null || data[key] === 0)) {
+          return
+        }
         formData.append(key, String(data[key]))
       }
     })
@@ -66,7 +71,7 @@ export const habitsAPI = {
   sendReportSingle: async (data: {
     [key: string]: any
     photos: Array<File>
-    dayCount: number
+    dayCount?: number
   }): Promise<ReportResponse> => {
     const formData = new FormData()
 
@@ -78,6 +83,10 @@ export const habitsAPI = {
 
     Object.keys(data).forEach((key) => {
       if (key !== 'photos') {
+        // Only append dayCount if it's defined and greater than 0
+        if (key === 'dayCount' && (data[key] === undefined || data[key] === null || data[key] === 0)) {
+          return
+        }
         formData.append(key, String(data[key]))
       }
     })

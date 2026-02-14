@@ -1,6 +1,6 @@
 import { Router } from "express";
 import axios from "axios";
-import { getConfig } from "../config/index.js";
+import { getConfig, saveConfig } from "../config/index.js";
 import { upload } from "../middleware/upload.js";
 import { formatTelegramMessageWithProgress } from "../utils/formatters.js";
 import { cleanupFiles } from "../utils/files.js";
@@ -27,6 +27,7 @@ router.get("/config", (req, res) => {
     res.json({
       success: true,
       habits: activeHabits,
+      dayCount: config.dayCount || 1,
       version: config.version,
       lastUpdated: config.lastUpdated,
     });
@@ -57,6 +58,25 @@ router.post("/report", upload.array("photos"), async (req, res) => {
     if (!BOT_TOKEN || !CHAT_ID) {
       throw new Error("Telegram credentials not configured");
     }
+
+    // Handle dayCount logic
+    const config = getConfig();
+    let dayCount;
+
+    if (req.body.dayCount && req.body.dayCount !== "") {
+      // User provided a custom dayCount
+      dayCount = parseInt(req.body.dayCount);
+    } else {
+      // Auto-increment from config
+      dayCount = (config.dayCount || 0) + 1;
+    }
+
+    // Update config with new dayCount
+    config.dayCount = dayCount;
+    saveConfig(config);
+
+    // Add dayCount to request body for message formatting
+    req.body.dayCount = dayCount;
 
     const caption = formatTelegramMessageWithProgress(req.body, tempFiles.length);
     console.log("Generated caption:", caption);
@@ -121,6 +141,25 @@ router.post("/report-single", upload.array("photos"), async (req, res) => {
     if (!BOT_TOKEN || !CHAT_ID) {
       throw new Error("Telegram credentials not configured");
     }
+
+    // Handle dayCount logic
+    const config = getConfig();
+    let dayCount;
+
+    if (req.body.dayCount && req.body.dayCount !== "") {
+      // User provided a custom dayCount
+      dayCount = parseInt(req.body.dayCount);
+    } else {
+      // Auto-increment from config
+      dayCount = (config.dayCount || 0) + 1;
+    }
+
+    // Update config with new dayCount
+    config.dayCount = dayCount;
+    saveConfig(config);
+
+    // Add dayCount to request body for message formatting
+    req.body.dayCount = dayCount;
 
     const caption = formatTelegramMessageWithProgress(req.body, tempFiles.length);
 
